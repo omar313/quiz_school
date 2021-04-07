@@ -1,0 +1,11 @@
+const kServerErrorMsg = 'Something went wrong, Please try again letter';
+const kWord = '言葉';
+const kStart = '勉強する';
+const kQuiz = '問題';
+const kWrong = '間違いです';
+const kCorrect = '正解です';
+const kResult = '結果を見る';
+const kPlayAgain = 'もう一度';
+const kPlayOnlyWrongAnswer = '間違えた問題だけもう一度';
+const kStartFromBegining = '最初に戻る';
+const kLessons = '勉強する';
