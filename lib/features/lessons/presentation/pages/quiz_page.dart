@@ -27,13 +27,16 @@ class QuizPage extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
       ),
-      body: Body(),
+      body: Body(lesson: lesson,),
     );
   }
 }
 
 class Body extends StatelessWidget {
-  BuildContext draggableSheetContext;
+final Lesson lesson;
+
+  const Body({Key key, @required this.lesson}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<QuizBloc, QuizState>(
@@ -63,7 +66,7 @@ class Body extends StatelessWidget {
               builder: (_) => BlocProvider.value(
                   value: context.read<QuizBloc>(),
                   child: QuizResultPage(
-                    lessonName: '',
+                    lessonName: lesson.lessonName,
                     resultText: state.resultString,
                     isWrongButtonRemoved: state.isWrongButtonRemoved,
                   ))));

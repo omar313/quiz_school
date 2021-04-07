@@ -54,9 +54,15 @@ class ResultBody extends StatelessWidget {
           context.read<QuizBloc>().add(QuizEventPlayWrongAnswers());
           Navigator.of(context).pop();
         },),
-        ResultButton(text: kStartFromBegining, action: (){},),
+        ResultButton(text: kStartFromBegining, action: (){
+          var count = 0;
+          Navigator.of(context).popUntil((route) => count++ == 2);
+        },),
         ResultButton(text: 'Lesson 2^', action: (){},),
-        ResultButton(text: 'Top^', action: (){},),
+        ResultButton(text: 'Top^', action: (){
+            var count = 0;
+          Navigator.of(context).popUntil((route) => count++ == 3);
+        },),
       ]),
     );
   }
