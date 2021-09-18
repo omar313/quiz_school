@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiz_school/features/home/presentation/bloc/cubit/home_cubit.dart';
 import 'package:quiz_school/features/home/presentation/screen/home_screen.dart';
 
+import 'core/constants/color_constant.dart';
 import 'injection_container.dart' as DI;
 
 void main() {
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          scaffoldBackgroundColor: kScaffoldBGColor,
+         appBarTheme: AppBarTheme(color: Colors.white, centerTitle: true, iconTheme: IconThemeData(color: Colors.black)),
           primaryColor: Colors.white
         ),
         home: BlocProvider(

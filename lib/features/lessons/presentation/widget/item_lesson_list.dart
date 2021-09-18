@@ -21,6 +21,7 @@ class ItemLessonList extends StatelessWidget {
             height: 40,
             width: 150,
             decoration: BoxDecoration(
+              color: Colors.white,
               border: Border.all(color: kBorderColor, width: 1),
               borderRadius: BorderRadius.circular(10),
             ),

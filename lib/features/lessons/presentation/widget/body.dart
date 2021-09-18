@@ -20,7 +20,7 @@ class Body extends StatelessWidget {
       builder: (context, state) {
         if (state is LessonlistLoading) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(color: Colors.white,),
           );
         } else if (state is LessonlistLoaded) {
           return LessonList(
@@ -33,6 +33,8 @@ class Body extends StatelessWidget {
               style: TextStyle(color: Colors.black),
             ),
           );
+        }else{
+          return Container();
         }
       },
       buildWhen: (previous, current) {

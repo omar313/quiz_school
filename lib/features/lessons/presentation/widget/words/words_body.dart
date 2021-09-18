@@ -31,7 +31,7 @@ class WordsBody extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.all(margin),
                   padding: const EdgeInsets.all(1),
-                  color: kBorderColor,
+                  color: Colors.white,
                   child: GridView.builder(
                       shrinkWrap: true,
                       padding: EdgeInsets.zero,
@@ -55,9 +55,10 @@ class WordsBody extends StatelessWidget {
                                       fit: BoxFit.fitWidth,
                                       child: Text(
                                         '${state.words[position].word}',
+                                        style: TextStyle(color: Colors.white),
                                         maxLines: 1,
                                       ))),
-                          color: Colors.white,
+                          color: kScaffoldBGColor,
                         );
                       }),
                 ),
@@ -68,6 +69,8 @@ class WordsBody extends StatelessWidget {
           return Center(
             child: Text(state.error),
           );
+        }else {
+          return Container();
         }
       },
     );

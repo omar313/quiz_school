@@ -94,6 +94,7 @@ class TitleBox extends StatelessWidget {
         height: 100,
         width: double.infinity,
         decoration: BoxDecoration(
+          color: Colors.white,
           border: Border.all(color: kBorderColor, width: 1),
           borderRadius: BorderRadius.circular(20),
         ),

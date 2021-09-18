@@ -8,9 +8,11 @@ class LessonListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         // backgroundColor: Colors.white,
-        title: Text(kLessons),
-        centerTitle: true,
-        leading: IconButton(icon: Icon(Icons.home), onPressed: () {  },),
+        title: Text(kLessons, style: TextStyle(color: Colors.black),),
+
+        leading: IconButton(icon: Image.asset('assets/images/quiz_app_logo.jpg'),  onPressed: () {
+          Navigator.of(context).pop();
+        },),
       ),
       body: Body(),
     );

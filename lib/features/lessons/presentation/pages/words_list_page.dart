@@ -11,7 +11,7 @@ class WordsListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('$title\n$kWord ', textAlign: TextAlign.center,),
+        title: Text('$title\n$kWord ', textAlign: TextAlign.center,style: TextStyle(color: Colors.black),),
       ),
       body: WordsBody(),
     );

@@ -9,23 +9,44 @@ import 'package:quiz_school/features/lessons/presentation/pages/quiz_page.dart';
 import 'package:quiz_school/features/lessons/presentation/pages/words_list_page.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class LessonListDetail extends StatelessWidget {
+class LessonListDetail extends StatefulWidget {
   final Lesson lesson;
 
   const LessonListDetail({Key key, this.lesson}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    YoutubePlayerController _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(lesson.videoUrl),
+  State<LessonListDetail> createState() => _LessonListDetailState();
+}
+
+class _LessonListDetailState extends State<LessonListDetail> {
+  YoutubePlayerController _controller;
+
+  @override
+  void initState() {
+    _controller = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(widget.lesson.videoUrl),
       flags: YoutubePlayerFlags(
         autoPlay: false,
         mute: false,
       ),
     );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(lesson.lessonName),
+          title: Text(widget.lesson.lessonName, style: TextStyle(color: Colors.black),),
           centerTitle: true,
         ),
         body: Padding(
@@ -44,12 +65,14 @@ class LessonListDetail extends StatelessWidget {
                       text: kWord,
                       height: 40,
                       action: () {
+
+                        _controller.pause();
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => BlocProvider(
                                 create: (context) => WordsCubit()
-                                  ..wordRequest(lesson.id.toString()),
+                                  ..wordRequest(widget.lesson.id.toString()),
                                 child: WordsListPage(
-                                  title: lesson.lessonName,
+                                  title: widget.lesson.lessonName,
                                 ))));
                       },
                     ),
@@ -57,21 +80,22 @@ class LessonListDetail extends StatelessWidget {
                       text: kQuiz,
                       height: 40,
                       action: () {
+                        _controller.pause();
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => MultiBlocProvider(
                                     providers: [
                                       BlocProvider(
                                         create: (context) => QuizBloc()
                                           ..add(
-                                              QuizEventDataRequest(lesson.id)),
+                                              QuizEventDataRequest(widget.lesson.id)),
                                       ),
                                       BlocProvider(
                                           lazy: false,
                                           create: (context) => WordsCubit()
-                                            ..wordRequest(lesson.id.toString()))
+                                            ..wordRequest(widget.lesson.id.toString()))
                                     ],
                                     child: QuizPage(
-                                      lesson: lesson,
+                                      lesson: widget.lesson,
                                     ))));
                       },
                     ),
@@ -83,8 +107,8 @@ class LessonListDetail extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
-                      '${this.lesson.lessonDiscription} ${this.lesson.lessonDiscription} ${this.lesson.lessonDiscription} ${this.lesson.lessonDiscription} ${this.lesson.lessonDiscription} ${this.lesson.lessonDiscription}',
-                      style: TextStyle(fontSize: 20),
+                      '${this.widget.lesson.lessonDiscription} ',
+                           style: TextStyle(fontSize: 20, color: Colors.white),
                       textAlign: TextAlign.justify,
                     ),
                   ),
