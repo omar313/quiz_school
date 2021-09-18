@@ -34,6 +34,8 @@ dependencies:
   get_it: ^6.0.0
   dio: ^3.0.10
   youtube_player_flutter: ^8.0.0
+  flutter_staggered_animations: ^1.0.0
+
 
 
 dev_dependencies:

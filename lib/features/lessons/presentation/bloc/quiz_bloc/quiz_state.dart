@@ -26,7 +26,7 @@ class QuizStateShowQuestion extends QuizState {
   @override
   List<Object> get props => [this.question, this.position];
 }
-
+class QuizStateEmptyContainerLoad extends QuizState {}
 class QuizStateRightAnswered extends QuizState {}
 
 class QuizStateCloseDialog extends QuizState {}
@@ -41,6 +41,8 @@ class QuizStateFinalAnswered extends QuizState {
   @override
   List<Object> get props => [this.isRight];
 }
+
+
 
 class QuizStateShowResult extends QuizState {
   // final List<Questions> wrongAnswers;

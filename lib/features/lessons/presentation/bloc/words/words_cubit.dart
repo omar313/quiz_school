@@ -13,17 +13,17 @@ class WordsCubit extends Cubit<WordsState> {
   void wordRequest(String id) async {
     try {
       final words = await di.get<GetWords>().words(id);
-      final wordsTemp = <Word>[];
-      wordsTemp.addAll(words);
-      words.addAll(wordsTemp);
-      words.addAll(wordsTemp);
-      words.addAll(wordsTemp);
-      words.addAll(wordsTemp);
-      words.addAll(wordsTemp);
-      words.addAll(wordsTemp);
-      words.addAll(wordsTemp);
-      words.addAll(wordsTemp);
-      words.addAll(wordsTemp);
+      // final wordsTemp = <Word>[];
+      // wordsTemp.addAll(words);
+      // words.addAll(wordsTemp);
+      // words.addAll(wordsTemp);
+      // words.addAll(wordsTemp);
+      // words.addAll(wordsTemp);
+      // words.addAll(wordsTemp);
+      // words.addAll(wordsTemp);
+      // words.addAll(wordsTemp);
+      // words.addAll(wordsTemp);
+      // words.addAll(wordsTemp);
       emit(WordsStateLoaded(words));
     } catch (e) {
       emit(WordsStateError(e.toString()));

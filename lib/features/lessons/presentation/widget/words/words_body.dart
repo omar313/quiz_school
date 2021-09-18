@@ -15,7 +15,7 @@ class WordsBody extends StatelessWidget {
       builder: (context, state) {
         if (state is WordsLoading) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(color: Colors.white,),
           );
         } else if (state is WordsStateLoaded) {
           // return ListView.builder(

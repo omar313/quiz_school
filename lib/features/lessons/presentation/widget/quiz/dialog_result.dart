@@ -17,24 +17,33 @@ class DialogResult extends StatelessWidget {
     return Dialog(
       elevation: 0,
       insetPadding: EdgeInsets.symmetric(horizontal: size.width * 0.23),
-      child: Container(
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(
-              color: Color(0xffe6f3ff),
-              blurRadius: 20,
-              spreadRadius: 0,
-              offset: Offset(0, 20))
-        ], color: Colors.white),
-        height: size.height * 0.4,
-        width: size.width * 0.1,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            topIcon(),
-            DialogMiddleText(isCorrect: isCorrect),
-            isQuizFinished  ? DialogResultButton() : DialogNextButton()
-          ],
+      child: PhysicalModel(
+        elevation: 10,
+        borderRadius: BorderRadius.circular(5),
+        color: Colors.black,
+        child: Container(
+          decoration: BoxDecoration(
+          //     boxShadow: [
+          //   BoxShadow(
+          //       color: Colors.black12,
+          //       blurRadius: 5,
+          //       spreadRadius: 0,
+          //       offset: Offset(0, 4))
+          // ],
+          //
+            borderRadius: BorderRadius.circular(5),
+              color: Colors.white),
+          height: size.height * 0.4,
+          width: size.width * 0.1,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              topIcon(),
+              DialogMiddleText(isCorrect: isCorrect),
+              isQuizFinished  ? DialogResultButton() : DialogNextButton()
+            ],
+          ),
         ),
       ),
     );

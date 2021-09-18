@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:quiz_school/core/constants/color_constant.dart';
 import 'package:quiz_school/core/constants/strings.dart';
 import 'package:quiz_school/features/home/presentation/component/rectengle_shadow_btn.dart';
@@ -24,6 +25,7 @@ class QuizPage extends StatelessWidget {
         centerTitle: true,
         title: Text(
           '${lesson.lessonName}\n$kQuiz',
+          style: TextStyle(color: Colors.black),
           textAlign: TextAlign.center,
         ),
       ),
@@ -43,23 +45,36 @@ final Lesson lesson;
       listener: (context, state) {
         if (state is QuizStateRightAnswered) {
           print('Right Answered');
-          Navigator.of(context).push(PageRouteBuilder(
-              pageBuilder: (_, __, ___) => BlocProvider.value(
-                  value: context.read<QuizBloc>(),
-                  child: DialogResult(
-                    isCorrect: true,
-                  )),
-              opaque: false,
-              barrierDismissible: false));
+          final content = BlocProvider.value(
+              value: context.read<QuizBloc>(),
+              child: DialogResult(
+                isCorrect: true,
+              ));
+          _openCustomDialog(content, context);
+
+          // Navigator.of(context).push(PageRouteBuilder(
+          //     pageBuilder: (_, __, ___) => BlocProvider.value(
+          //         value: context.read<QuizBloc>(),
+          //         child: DialogResult(
+          //           isCorrect: true,
+          //         )),
+          //     opaque: false,
+          //     barrierDismissible: false));
         } else if (state is QuizStateWrongAnswered) {
-          Navigator.of(context).push(PageRouteBuilder(
-              pageBuilder: (_, __, ___) => BlocProvider.value(
-                  value: context.read<QuizBloc>(),
-                  child: DialogResult(
-                    isCorrect: false,
-                  )),
-              opaque: false,
-              barrierDismissible: false));
+          final content = BlocProvider.value(
+              value: context.read<QuizBloc>(),
+              child: DialogResult(
+                isCorrect: false,
+              ));
+          _openCustomDialog(content, context);
+          // Navigator.of(context).push(PageRouteBuilder(
+          //     pageBuilder: (_, __, ___) => BlocProvider.value(
+          //         value: context.read<QuizBloc>(),
+          //         child: DialogResult(
+          //           isCorrect: false,
+          //         )),
+          //     opaque: false,
+          //     barrierDismissible: false));
         } else if (state is QuizStateShowResult) {
           // goto result page
           Navigator.of(context).push(MaterialPageRoute(
@@ -93,17 +108,24 @@ final Lesson lesson;
       builder: (context, state) {
         if (state is QuizStateLoading) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(color: Colors.white,),
           );
         } else if (state is QuizStateError) {
           return Center(
             child: Text(state.error),
           );
         } else if (state is QuizStateShowQuestion) {
+
           return QuizQuestionAnswer(
             question: state.question,
             number: state.position.toString(),
           );
+        }
+        else if (state is QuizStateEmptyContainerLoad){
+          return Container();
+        }
+        else{
+          return Container();
         }
       },
       buildWhen: (previous, current) {
@@ -119,6 +141,25 @@ final Lesson lesson;
       },
     );
   }
+
+void _openCustomDialog(Widget content, BuildContext context) {
+  showGeneralDialog(barrierColor: Colors.black.withOpacity(0.5),
+      transitionBuilder: (context, a1, a2, widget) {
+        return Transform.scale(
+          scale: a1.value,
+          child: Opacity(
+            opacity: a1.value,
+            child: content,
+          ),
+        );
+      },
+      transitionDuration: Duration(milliseconds: 200),
+      barrierDismissible: false,
+      barrierLabel: '',
+      context: context,
+      pageBuilder: (context, animation1, animation2) {}
+     );
+}
 }
 
 class QuizQuestionAnswer extends StatelessWidget {
@@ -132,29 +173,33 @@ class QuizQuestionAnswer extends StatelessWidget {
     return Stack(
       children: [
         SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('$kQuiz $number'),
-                QuestionBox(question: question),
-                AnswersListView(question: question),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      RectangleShadowBtn(
-                        text: kWord,
-                        action: () {
-                          context.read<QuizBloc>().add(QuizEventTapWord());
-                        },
-                      ),
-                    ],
+          child: AnimationLimiter(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: AnimationConfiguration.toStaggeredList(childAnimationBuilder: (widget) {
+                  return SlideAnimation(child: FadeInAnimation(child: widget), horizontalOffset: 50.0,);
+                }, duration: Duration(milliseconds: 500), children:  [
+                  Text('$kQuiz $number', style: TextStyle(color: Colors.white)),
+                  QuestionBox(question: question),
+                  AnswersListView(question: question),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        RectangleShadowBtn(
+                          text: kWord,
+                          action: () {
+                            context.read<QuizBloc>().add(QuizEventTapWord());
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ]) ,
+              ),
             ),
           ),
         ),
@@ -205,19 +250,21 @@ class QuestionBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: EdgeInsets.symmetric( vertical: 10),
       child: Column(
         children: [
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.white,
                 border: Border.all(width: 1, color: kBorderColor)),
-            child: (Text(
+            child: Text(
               question.questionTitle,
               style: TextStyle(fontSize: 18),
               textAlign: TextAlign.justify,
-            )),
+            ),
           )
         ],
       ),

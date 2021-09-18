@@ -32,6 +32,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
         quizAllQuestions.addAll(questions);
         quizStoreAllQuestions.addAll(questions);
         currentQuestionPosition = 0;
+
         yield QuizStateShowQuestion(quizAllQuestions[currentQuestionPosition],
             currentQuestionPosition + 1);
       } catch (e) {
@@ -40,6 +41,9 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     } else if (event is QuizEventNextQuestion) {
       currentQuestionPosition++;
       yield QuizStateCloseDialog();
+      yield QuizStateEmptyContainerLoad();
+     await Future.delayed(Duration(milliseconds: 100));
+
       yield QuizStateShowQuestion(quizAllQuestions[currentQuestionPosition],
           currentQuestionPosition + 1);
     } else if (event is QuizEventGiveAnswer) {
