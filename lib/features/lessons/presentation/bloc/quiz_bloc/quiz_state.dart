@@ -48,9 +48,10 @@ class QuizStateShowResult extends QuizState {
   // final List<Questions> wrongAnswers;
   final String resultString;
    final bool isWrongButtonRemoved;
+   final Lesson nextLesson;
 
 
-  QuizStateShowResult(this.resultString, this.isWrongButtonRemoved);
+  QuizStateShowResult(this.resultString, this.isWrongButtonRemoved , this.nextLesson);
 
   @override
   List<Object> get props => [this.resultString, this.isWrongButtonRemoved];

@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:quiz_school/core/constants/strings.dart';
+import 'package:quiz_school/features/lessons/domain/entity/lesson_list_model.dart';
+import 'package:quiz_school/features/lessons/domain/entity/lesson_singleton.dart';
 import 'package:quiz_school/features/lessons/domain/entity/quiz_model.dart';
 import 'package:quiz_school/features/lessons/domain/use_case/get_questions.dart';
 import 'package:quiz_school/injection_container.dart';
@@ -11,7 +13,8 @@ part 'quiz_event.dart';
 part 'quiz_state.dart';
 
 class QuizBloc extends Bloc<QuizEvent, QuizState> {
-  QuizBloc() : super(QuizStateLoading());
+  final LessonsSingleton lessonsSingleTon;
+  QuizBloc(this.lessonsSingleTon) : super(QuizStateLoading());
 
   List<Questions> quizAllQuestions = <Questions>[];
   List<Questions> quizStoreAllQuestions = <Questions>[];
@@ -64,7 +67,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     } else if (event is QuizEventShowAResult) {
       yield QuizStateCloseDialog();
     
-      yield QuizStateShowResult(calculateResultString(), wrongAnswers.isEmpty);
+      yield QuizStateShowResult(calculateResultString(), wrongAnswers.isEmpty, getNextLesson());
     } else if (event is QuizEventTapWord) {
       print('quiz word request');
       yield QuizStateShowWords(lessonID);
@@ -98,5 +101,15 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
     //   return '${quizStoreAllQuestions.length}問中${(quizStoreAllQuestions.length - quizAllQuestions.length) + (quizAllQuestions.length - wrongAnswers.length)}問正解 !';
     // }
       return '${quizStoreAllQuestions.length}問中${quizStoreAllQuestions.length - wrongAnswers.length}問正解 !';
+  }
+
+  Lesson getNextLesson() {
+    int currentPosition = lessonsSingleTon.selectedPosition;
+    if(currentPosition == (lessonsSingleTon.lessons.length - 1)){
+      return null;
+    }else{
+      lessonsSingleTon.selectedPosition = currentPosition + 1;
+      return lessonsSingleTon.lessons[lessonsSingleTon.selectedPosition];
+    }
   }
 }

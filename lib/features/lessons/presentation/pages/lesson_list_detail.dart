@@ -9,6 +9,8 @@ import 'package:quiz_school/features/lessons/presentation/pages/quiz_page.dart';
 import 'package:quiz_school/features/lessons/presentation/pages/words_list_page.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../../../../injection_container.dart';
+
 class LessonListDetail extends StatefulWidget {
   final Lesson lesson;
 
@@ -85,7 +87,7 @@ class _LessonListDetailState extends State<LessonListDetail> {
                             builder: (context) => MultiBlocProvider(
                                     providers: [
                                       BlocProvider(
-                                        create: (context) => QuizBloc()
+                                        create: (context) => di.get<QuizBloc>()
                                           ..add(
                                               QuizEventDataRequest(widget.lesson.id)),
                                       ),

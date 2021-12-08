@@ -84,6 +84,8 @@ final Lesson lesson;
                     lessonName: lesson.lessonName,
                     resultText: state.resultString,
                     isWrongButtonRemoved: state.isWrongButtonRemoved,
+                    nextLesson: state.nextLesson,
+
                   ))));
         } else if (state is QuizStateFinalAnswered) {
           Navigator.of(context).push(PageRouteBuilder(
@@ -160,6 +162,8 @@ void _openCustomDialog(Widget content, BuildContext context) {
       pageBuilder: (context, animation1, animation2) {}
      );
 }
+
+
 }
 
 class QuizQuestionAnswer extends StatelessWidget {

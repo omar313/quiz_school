@@ -8,6 +8,8 @@ import 'package:quiz_school/features/home/presentation/screen/home_dialog.dart';
 import 'package:quiz_school/features/lessons/presentation/bloc/lesson_list_bloc/lessonlist_bloc.dart';
 import 'package:quiz_school/features/lessons/presentation/pages/lesson_list_page.dart';
 
+import '../../../../injection_container.dart';
+
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class Body extends StatelessWidget {
         } else if (state is HomeOpenLessonList) {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => BlocProvider(
-                  create: (context) => LessonlistBloc()..add(LessonRequestEvent()),
+                  create: (context) => di.get<LessonlistBloc>()..add(LessonRequestEvent()),
                   child: LessonListPage())));
         }
       },

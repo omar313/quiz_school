@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:quiz_school/core/constants/strings.dart';
 import 'package:quiz_school/features/home/presentation/component/rectengle_shadow_btn.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quiz_school/features/lessons/domain/entity/lesson_list_model.dart';
 import 'package:quiz_school/features/lessons/presentation/bloc/quiz_bloc/quiz_bloc.dart';
 
+import 'lesson_list_detail.dart';
+
 class QuizResultPage extends StatelessWidget {
-  const QuizResultPage({Key key,@required this.lessonName, @required this.resultText, this.isWrongButtonRemoved}) : super(key: key);
+  const QuizResultPage({Key key,@required this.lessonName, @required this.resultText, this.isWrongButtonRemoved, this.nextLesson}) : super(key: key);
   final String lessonName; 
   final String resultText;
   final bool isWrongButtonRemoved;
+  final Lesson nextLesson;
   
 
   @override
@@ -21,7 +25,7 @@ class QuizResultPage extends StatelessWidget {
           leading: Container(),
           title: Text('$lessonName\n$kQuiz', textAlign: TextAlign.center,),
         ),
-        body: ResultBody(resultText: resultText,isWrongButtonRemoved: isWrongButtonRemoved,),
+        body: ResultBody(resultText: resultText,isWrongButtonRemoved: isWrongButtonRemoved,nextLesson: nextLesson,),
       ),
     );
   }
@@ -30,7 +34,8 @@ class QuizResultPage extends StatelessWidget {
 class ResultBody extends StatelessWidget {
   final String resultText;
   final bool isWrongButtonRemoved;
-  const ResultBody({Key key, this.resultText, this.isWrongButtonRemoved}) : super(key: key);
+  final Lesson nextLesson;
+  const ResultBody({Key key, this.resultText, this.isWrongButtonRemoved, this.nextLesson}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +63,16 @@ class ResultBody extends StatelessWidget {
           var count = 0;
           Navigator.of(context).popUntil((route) => count++ == 2);
         },),
-        ResultButton(text: 'Lesson 2^', action: (){},),
+         if(nextLesson !=null)
+         ResultButton(text: nextLesson.lessonName, action: (){
+           Navigator.of(context).pop();
+           Navigator.of(context).pop();
+           Navigator.of(context).pop();
+           Navigator.of(context).push(MaterialPageRoute(
+               builder: (context) => LessonListDetail(
+                 lesson: nextLesson,
+               )));
+         },),
         ResultButton(text: 'Top^', action: (){
             var count = 0;
           Navigator.of(context).popUntil((route) => count++ == 3);
