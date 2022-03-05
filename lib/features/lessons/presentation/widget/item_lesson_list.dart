@@ -13,19 +13,21 @@ class ItemLessonList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20.0),
+      padding: const EdgeInsets.only(top: 20.0, left: 16, right: 16),
       child: Row(
+
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            height: 40,
-            width: 150,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: kBorderColor, width: 1),
-              borderRadius: BorderRadius.circular(10),
+          Flexible(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: kBorderColor, width: 1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(lesson.lessonName , style: TextStyle(fontSize: 15),)
             ),
-            child: Center(child: Text(lesson.lessonName , style: TextStyle(fontSize: 15),),)
           ),
         ],
       ),

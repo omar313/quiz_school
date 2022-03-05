@@ -34,10 +34,10 @@ class QuizResponse {
 
 class Questions {
   int _id;
-  String _lessonId;
+  int _lessonId;
   String _questionTitle;
   String _questionExplanation;
-  String _status;
+  int _status;
   Null _createdAt;
   Null _updatedAt;
   Null _allQuestion;
@@ -45,10 +45,10 @@ class Questions {
 
   Questions(
       {int id,
-      String lessonId,
+      int lessonId,
       String questionTitle,
       String questionExplanation,
-      String status,
+      int status,
       Null createdAt,
       Null updatedAt,
       Null allQuestion,
@@ -66,15 +66,15 @@ class Questions {
 
   int get id => _id;
   set id(int id) => _id = id;
-  String get lessonId => _lessonId;
-  set lessonId(String lessonId) => _lessonId = lessonId;
+  int get lessonId => _lessonId;
+  set lessonId(int lessonId) => _lessonId = lessonId;
   String get questionTitle => _questionTitle;
   set questionTitle(String questionTitle) => _questionTitle = questionTitle;
   String get questionExplanation => _questionExplanation;
   set questionExplanation(String questionExplanation) =>
       _questionExplanation = questionExplanation;
-  String get status => _status;
-  set status(String status) => _status = status;
+  int get status => _status;
+  set status(int status) => _status = status;
   Null get createdAt => _createdAt;
   set createdAt(Null createdAt) => _createdAt = createdAt;
   Null get updatedAt => _updatedAt;
@@ -90,8 +90,8 @@ class Questions {
     _questionTitle = json['question_title'];
     _questionExplanation = json['question_explanation'];
     _status = json['status'];
-    _createdAt = json['created_at'];
-    _updatedAt = json['updated_at'];
+    // _createdAt = json['created_at'];
+    // _updatedAt = json['updated_at'];
     _allQuestion = json['all_question'];
     if (json['question_ans'] != null) {
       _questionAns = new List<QuestionAns>();
@@ -120,19 +120,19 @@ class Questions {
 
 class QuestionAns {
   int _id;
-  String _questionId;
+  int _questionId;
   String _answerText;
-  String _answer;
-  String _status;
+  int _answer;
+  int _status;
   Null _createdAt;
   Null _updatedAt;
 
   QuestionAns(
       {int id,
-      String questionId,
+      int questionId,
       String answerText,
-      String answer,
-      String status,
+      int answer,
+      int status,
       Null createdAt,
       Null updatedAt}) {
     this._id = id;
@@ -146,14 +146,14 @@ class QuestionAns {
 
   int get id => _id;
   set id(int id) => _id = id;
-  String get questionId => _questionId;
-  set questionId(String questionId) => _questionId = questionId;
+  int get questionId => _questionId;
+  set questionId(int questionId) => _questionId = questionId;
   String get answerText => _answerText;
   set answerText(String answerText) => _answerText = answerText;
-  String get answer => _answer;
-  set answer(String answer) => _answer = answer;
-  String get status => _status;
-  set status(String status) => _status = status;
+  int get answer => _answer;
+  set answer(int answer) => _answer = answer;
+  int get status => _status;
+  set status(int status) => _status = status;
   Null get createdAt => _createdAt;
   set createdAt(Null createdAt) => _createdAt = createdAt;
   Null get updatedAt => _updatedAt;
@@ -165,8 +165,8 @@ class QuestionAns {
     _answerText = json['answer_text'];
     _answer = json['answer'];
     _status = json['status'];
-    _createdAt = json['created_at'];
-    _updatedAt = json['updated_at'];
+    // _createdAt = json['created_at'];
+    // _updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {

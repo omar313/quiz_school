@@ -10,6 +10,8 @@ import 'package:quiz_school/features/lessons/presentation/bloc/quiz_bloc/quiz_bl
 import 'package:quiz_school/features/lessons/presentation/pages/quiz_result_page.dart';
 import 'package:quiz_school/features/lessons/presentation/widget/quiz/dialog_result.dart';
 import 'package:quiz_school/features/lessons/presentation/widget/quiz/words_bottom_sheet.dart';
+import 'package:quiz_school/features/lessons/presentation/widget/words/words_body.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class QuizPage extends StatelessWidget {
   final Lesson lesson;
@@ -34,11 +36,29 @@ class QuizPage extends StatelessWidget {
   }
 }
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
 final Lesson lesson;
 
   const Body({Key key, @required this.lesson}) : super(key: key);
 
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  PanelController _panelController;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _panelController = PanelController();
+  }
+
+  @override
+  void dispose() {
+
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<QuizBloc, QuizState>(
@@ -81,7 +101,7 @@ final Lesson lesson;
               builder: (_) => BlocProvider.value(
                   value: context.read<QuizBloc>(),
                   child: QuizResultPage(
-                    lessonName: lesson.lessonName,
+                    lessonName: widget.lesson.lessonName,
                     resultText: state.resultString,
                     isWrongButtonRemoved: state.isWrongButtonRemoved,
                     nextLesson: state.nextLesson,
@@ -100,11 +120,14 @@ final Lesson lesson;
         } else if (state is QuizStateCloseDialog) {
           Navigator.pop(context);
         } else if (state is QuizStateShowWords) {
-          showBottomSheet(
-              context: context,
-              builder: (context) {
-                return WordsBottomSheet();
-              });
+          // showBottomSheet(
+          //     context: context,
+          //     builder: (context) {
+          //       return WordsBottomSheet();
+          //     });
+          // if(_panelController.isPanelClosed)
+          if(!_panelController.isPanelOpen)
+          _panelController.open();
         }
       },
       builder: (context, state) {
@@ -117,10 +140,33 @@ final Lesson lesson;
             child: Text(state.error),
           );
         } else if (state is QuizStateShowQuestion) {
+          final height = MediaQuery.of(context).size.height;
+          return SlidingUpPanel(
+            controller: _panelController,
+            minHeight: 0,
+            // maxHeight: 300,
+            // snapPoint: 0.3,
 
-          return QuizQuestionAnswer(
-            question: state.question,
-            number: state.position.toString(),
+            panelBuilder: (scrollController){
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0, bottom: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(kWord),
+                      ],
+                    ),
+                  ),
+                  Expanded(child: WordsBody(scrollController: scrollController,)),
+                ],
+              );
+            },
+            body: QuizQuestionAnswer(
+              question: state.question,
+              number: state.position.toString(),
+            ),
           );
         }
         else if (state is QuizStateEmptyContainerLoad){
@@ -162,8 +208,6 @@ void _openCustomDialog(Widget content, BuildContext context) {
       pageBuilder: (context, animation1, animation2) {}
      );
 }
-
-
 }
 
 class QuizQuestionAnswer extends StatelessWidget {

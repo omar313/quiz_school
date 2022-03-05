@@ -39,7 +39,7 @@ class Lesson {
   String _videoUrl;
   String _wordTitle;
   String _quizTitle;
-  String _status;
+  int _status;
   String _createdAt;
   String _updatedAt;
 
@@ -50,7 +50,7 @@ class Lesson {
       String videoUrl,
       String wordTitle,
       String quizTitle,
-      String status,
+      int status,
       String createdAt,
       String updatedAt}) {
     this._id = id;
@@ -77,8 +77,8 @@ class Lesson {
   set wordTitle(String wordTitle) => _wordTitle = wordTitle;
   String get quizTitle => _quizTitle;
   set quizTitle(String quizTitle) => _quizTitle = quizTitle;
-  String get status => _status;
-  set status(String status) => _status = status;
+  int get status => _status;
+  set status(int status) => _status = status;
   String get createdAt => _createdAt;
   set createdAt(String createdAt) => _createdAt = createdAt;
   String get updatedAt => _updatedAt;
@@ -92,8 +92,8 @@ class Lesson {
     _wordTitle = json['word_title'];
     _quizTitle = json['quiz_title'];
     _status = json['status'];
-    _createdAt = json['created_at'];
-    _updatedAt = json['updated_at'];
+    // _createdAt = json['created_at'];
+    // _updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {

@@ -31,11 +31,12 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       try {
         // isWrongAnserMode = false;
         var questions = await di.get<GetQuestions>().questions(event.id);
+        questions.shuffle();
         lessonID = event.id;
         quizAllQuestions.addAll(questions);
         quizStoreAllQuestions.addAll(questions);
         currentQuestionPosition = 0;
-
+        quizAllQuestions[currentQuestionPosition].questionAns.shuffle();
         yield QuizStateShowQuestion(quizAllQuestions[currentQuestionPosition],
             currentQuestionPosition + 1);
       } catch (e) {
@@ -46,13 +47,13 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       yield QuizStateCloseDialog();
       yield QuizStateEmptyContainerLoad();
      await Future.delayed(Duration(milliseconds: 100));
-
+      quizAllQuestions[currentQuestionPosition].questionAns.shuffle();
       yield QuizStateShowQuestion(quizAllQuestions[currentQuestionPosition],
           currentQuestionPosition + 1);
     } else if (event is QuizEventGiveAnswer) {
       final question = quizAllQuestions[currentQuestionPosition];
 
-      if (question.questionAns[event.answerPositon].answer == '1') {
+      if (question.questionAns[event.answerPositon].answer == 1) {
         if (quizAllQuestions.length == (currentQuestionPosition + 1)) {
           yield QuizStateFinalAnswered(true);
         } else
@@ -81,6 +82,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
 
 
       currentQuestionPosition = 0;
+      quizAllQuestions.shuffle();
+      quizAllQuestions[currentQuestionPosition].questionAns.shuffle();
       yield QuizStateShowQuestion(quizAllQuestions[currentQuestionPosition],
           currentQuestionPosition + 1);
     } else if (event is QuizEventPlayWrongAnswers) {
@@ -89,6 +92,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       quizAllQuestions.addAll(wrongAnswers);
       wrongAnswers.clear();
       currentQuestionPosition = 0;
+      quizAllQuestions.shuffle();
+      quizAllQuestions[currentQuestionPosition].questionAns.shuffle();
       yield QuizStateShowQuestion(quizAllQuestions[currentQuestionPosition],
           currentQuestionPosition + 1);
     }

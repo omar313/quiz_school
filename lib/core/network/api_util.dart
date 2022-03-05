@@ -5,7 +5,7 @@ class ApiUtil{
 
   ApiUtil(){
     // String proxy = 'https://cors-anywhere.herokuapp.com/';
-    dio.options.baseUrl = 'https://api.dentistaa.com/api/';
+    dio.options.baseUrl = 'http://quizapp.ishou.tokyo/api/';
     dio.options.responseType = ResponseType.plain;
     
   }
