@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quiz_school/features/home/presentation/bloc/cubit/home_cubit.dart';
 import 'package:quiz_school/features/home/presentation/screen/home_screen.dart';
-
 import 'core/constants/color_constant.dart';
+import 'features/home/presentation/cubit/home_cubit.dart';
 import 'injection_container.dart' as DI;
 
 void main() {

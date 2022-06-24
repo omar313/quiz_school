@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiz_school/core/constants/color_constant.dart';
 import 'package:quiz_school/core/constants/strings.dart';
-import 'package:quiz_school/features/home/presentation/bloc/cubit/home_cubit.dart';
 import 'package:quiz_school/features/home/presentation/component/rectengle_shadow_btn.dart';
 import 'package:quiz_school/features/home/presentation/screen/home_dialog.dart';
 import 'package:quiz_school/features/lessons/presentation/bloc/lesson_list_bloc/lessonlist_bloc.dart';
 import 'package:quiz_school/features/lessons/presentation/pages/lesson_list_page.dart';
 
 import '../../../../injection_container.dart';
+import '../cubit/home_cubit.dart';
 
 class Body extends StatelessWidget {
   @override
