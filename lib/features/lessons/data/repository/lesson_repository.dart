@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:quiz_school/core/constants/strings.dart';
 import 'package:quiz_school/core/network/api_util.dart';
 import 'package:quiz_school/features/lessons/domain/entity/lesson_list_model.dart';
@@ -16,11 +17,15 @@ class LessonRepositoryImpl implements LessonRepository {
     final jsonString = response.data.toString();
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> jsonObj = json.decode(jsonString);
-      return LessonResponse.fromJson(jsonObj).allLesson;
+      return compute(_parseLessons, jsonString);
     } else {
       return Future.error(kServerErrorMsg);
     }
+  }
+
+  static Future<List<Lesson>> _parseLessons(String jsonString) {
+    final jsonObj = json.decode(jsonString);
+    return Future.value(LessonResponse.fromJson(jsonObj).allLesson);
   }
 
   @override
@@ -31,11 +36,15 @@ class LessonRepositoryImpl implements LessonRepository {
     final jsonString = response.data.toString();
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> jsonObj = json.decode(jsonString);
-      return QuizResponse.fromJson(jsonObj).questions;
+      return compute(_parseQuestions, jsonString);
     } else {
       return Future.error(kServerErrorMsg);
     }
+  }
+
+  static Future<List<Questions>> _parseQuestions(String jsonString) {
+    final jsonObj = json.decode(jsonString);
+    return Future.value(QuizResponse.fromJson(jsonObj).questions);
   }
 
   @override
@@ -46,14 +55,16 @@ class LessonRepositoryImpl implements LessonRepository {
     final jsonString = response.data.toString();
 
     if (response.statusCode == 200) {
-      List jsonList = json.decode(jsonString);
-      final list = jsonList.map((word) => Word.fromJson(word)).toList();
-      final tempList = <Word>[];
-      
-
-      return list;
+      return compute(_parseWords, jsonString);
     } else {
       return Future.error(kServerErrorMsg);
     }
   }
+
+  static  Future<List<Word>> _parseWords(String jsonString)  {
+    List jsonList = json.decode(jsonString);
+    final list = jsonList.map((word) => Word.fromJson(word)).toList();
+    return Future.value(list);
+  }
+
 }
